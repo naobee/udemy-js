@@ -50,8 +50,8 @@ obj.greeting = function() {
     console.log('hello');
 }
 
-function after1s(callack) {
-    setTimeout(callack, 1000);
+function after1s(callback) {
+    setTimeout(callback, 1000);
 }
 
 // この時点で実行します。

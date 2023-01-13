@@ -40,6 +40,8 @@ const incrementFactory = () => {
     console.log(++num)
   };
 }
+
+
   
 const increment = incrementFactory();
 

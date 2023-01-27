@@ -1,3 +1,4 @@
+/*
 class Person {
     constructor(name, age) {
         this.name = name;
@@ -11,6 +12,7 @@ class Person {
 
 class Japanese extends Person {
     constructor(name, age, gender) {
+      // super を使って親クラスのプロパティを継承する場合、1番先頭で宣言する必要がある（独自プロパティの後に持ってくるとエラーとなる）
         super(name, age);
         this.gender = gender;
     }
@@ -27,17 +29,22 @@ class Japanese extends Person {
 
 const taro = new Japanese('Taro', 23, 'Male');
 console.log(taro);
-taro.bye();
+taro.hello();
+*/
 
-// const american = {
-//     hello() {
-//         console.log('hello ' + this.name);
-//     }
-// }
+const american = {
+    hello() {
+        console.log('hello ' + this.name);
+    }
+}
 
-// const bob = {
-//     name: 'Bob',
-//     hello() {
-//         super.hello();
-//     }
-// }
+const bob = {
+    name: 'Bob',
+    
+    hello() {
+       super.hello();
+    }
+}
+
+Object.setPrototypeOf(bob, american);
+bob.hello();

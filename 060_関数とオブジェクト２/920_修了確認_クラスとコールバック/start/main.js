@@ -20,4 +20,9 @@ class Person {
 }
 
 const bob = new Person('Bob', 23);
-setTimeout(bob.hello, 1000);
+// setTimeout(bob.hellom, 1000);
+// 上の式ではsetTimeoutにPersonクラス内helloメソッドへの参照を渡しているだけで、オブジェクトから実行されたことにはならない
+setTimeout(bob.hello.bind(bob), 1000);
+setTimeout(function() {
+  bob.hello();
+}, 1000);

@@ -39,10 +39,40 @@
  * customFn3
  * 
  */
+ 
+ // eventStack へのアクセスを制限するために即時関数を使用
+ const events = (function() {
+   const eventStack = new Map();
+   
+   return {
+     on(type, fn) {
+       // 二回目以降のための処理、eventStack でtype を取得し、undefindでなかったらそのまま使用、undefindなら新しいSetをfnStackに追加する
+       const fnStack = eventStack.get(type) || new Set();
+       fnStack.add(fn);
+       eventStack.set(type, fnStack);
+     },
+     off(type, fn) {
+       const fnStack = eventStack.get(type);
+       // has を使って関数が格納されているかを確認、存在しているならdelete
+       if(fnStack && fnStack.has(fn)) {
+         fnStack.delete(fn);
+       }
+     },
+     emit(type, _this) {
+       const fnStack = eventStack.get(type);
+       if(fnStack) {
+         // 関数がfnsStackに複数入ってる場合のための処理、関数を一つずつ取り出して実行
+         for(const fn of fnStack) {
+           fn.call(_this);
+         }
+       } 
+     }
+   }
+   })();
 
 class MyLibrary {
 	constructor() {
-		events.emit('beforeInit');
+		events.emit('beforeInit', this);
 	
 		console.log('library process');
 		
